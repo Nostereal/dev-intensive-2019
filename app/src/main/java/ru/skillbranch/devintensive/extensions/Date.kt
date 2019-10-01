@@ -15,17 +15,8 @@ fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
     return dateFormatter.format(this)
 }
 
-fun Date.add(value: Int, units: String): Date {
-    var time = this.time
-    time += when (units) {
-        "second", "seconds" -> value * SECOND
-        "minute", "minutes" -> value * MINUTE
-        "hour", "hours" -> value * HOUR
-        "day", "days" -> value * DAY
-        else -> throw IllegalStateException("invalid units")
-    }
-
-    this.time += time
+fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
+    this.time += units.value * value
     return this
 }
 
@@ -63,11 +54,11 @@ fun Date.humanizeDiff(): String {
     }
 }
 
-enum class TimeUnits {
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY;
+enum class TimeUnits(val value: Long) {
+    SECOND(1000L),
+    MINUTE(60 * SECOND.value),
+    HOUR(60 * MINUTE.value),
+    DAY(24 * HOUR.value);
 
     fun plural(value: Int): String {
         var plural = "$value "
