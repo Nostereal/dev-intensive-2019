@@ -67,36 +67,36 @@ enum class TimeUnits {
     SECOND,
     MINUTE,
     HOUR,
-    DAY
-}
+    DAY;
 
-fun TimeUnits.plural(value: Int): String {
-    var plural = "$value "
-    when (this) {
-        TimeUnits.SECOND -> plural += when {
-            value % 100 in 11..14 -> "секунд"
-            value % 10 in 2..4 -> "секунды"
-            value % 10 == 1 -> "секунду"
-            else -> "секунд"
+    fun plural(value: Int): String {
+        var plural = "$value "
+        when (this) {
+            SECOND -> plural += when {
+                value % 100 in 11..14 -> "секунд"
+                value % 10 in 2..4 -> "секунды"
+                value % 10 == 1 -> "секунду"
+                else -> "секунд"
+            }
+            MINUTE -> plural += when {
+                value % 100 in 11..14 -> "минут"
+                value % 10 in 2..4 -> "минуты"
+                value % 10 == 1 -> "минуту"
+                else -> "минут"
+            }
+            HOUR -> plural += when {
+                value % 100 in 11..14 -> "часов"
+                value % 10  == 1 -> "час"
+                value % 10 in 2..4 -> "часа"
+                else -> " часов"
+            }
+            DAY -> plural += when {
+                value % 100 in 11..14 -> "дней"
+                value % 10 in 2..4 -> "дня"
+                value % 10 == 1 -> "день"
+                else -> "дней"
+            }
         }
-        TimeUnits.MINUTE -> plural += when {
-            value % 100 in 11..14 -> "минут"
-            value % 10 in 2..4 -> "минуты"
-            value % 10 == 1 -> "минуту"
-            else -> "минут"
-        }
-        TimeUnits.HOUR -> plural += when {
-            value % 100 in 11..14 -> "часов"
-            value % 10  == 1 -> "час"
-            value % 10 in 2..4 -> "часа"
-            else -> " часов"
-        }
-        TimeUnits.DAY -> plural += when {
-            value % 100 in 11..14 -> "дней"
-            value % 10 in 2..4 -> "дня"
-            value % 10 == 1 -> "день"
-            else -> "дней"
-        }
+        return plural
     }
-    return plural
 }
