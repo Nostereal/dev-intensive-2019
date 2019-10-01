@@ -20,7 +20,7 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
     return this
 }
 
-fun Date.humanizeDiff(): String {
+fun Date.humanizeDiff(date: Date = Date()): String {
     /*
 0с - 1с "только что"
 
@@ -40,7 +40,7 @@ fun Date.humanizeDiff(): String {
 
 >360д "более года назад"
      */
-    val msDiff = this.time - Date().time
+    val msDiff = this.time - date.time
     return when {
         msDiff <= 1 * SECOND -> "только что"
         msDiff <= 45 * SECOND -> "несколько секунд назад"

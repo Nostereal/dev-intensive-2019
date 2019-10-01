@@ -7,14 +7,14 @@ abstract class BaseMessage(
     val from: User?,
     val chat: Chat,
     val isIncoming: Boolean = false,
-    val date: Date = Date()
+    val date : Date = Date()
 ) {
     abstract fun formatMessage(): String
 
     companion object AbstractFactory {
         var prevId = -1
         fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type: String = "text",
-                        payload: String, isIncoming: Boolean = false): BaseMessage {
+                        payload: Any, isIncoming: Boolean = false): BaseMessage {
             prevId++
             return when (type) {
                 "image" -> ImageMessage(
@@ -22,7 +22,7 @@ abstract class BaseMessage(
                     from = from,
                     chat = chat,
                     date = date,
-                    img = payload,
+                    image = payload as String,
                     isIncoming = isIncoming
                 )
                 else -> TextMessage(
@@ -30,7 +30,7 @@ abstract class BaseMessage(
                     from = from,
                     chat = chat,
                     date = date,
-                    text = payload,
+                    text = payload as String,
                     isIncoming = isIncoming
                 )
             }
