@@ -8,7 +8,6 @@ private const val SECOND = 1000L
 private const val MINUTE = 60 * SECOND
 private const val HOUR = 60 * MINUTE
 private const val DAY = 24 * HOUR
-private const val YEAR = 365 * DAY
 
 
 fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
@@ -50,7 +49,7 @@ fun Date.humanizeDiff(): String {
 
 >360д "более года назад"
      */
-    val msDiff = (this.time - Date().time)
+    val msDiff = this.time - Date().time
     return when {
         msDiff <= 1 * SECOND -> "только что"
         msDiff <= 45 * SECOND -> "несколько секунд назад"
@@ -62,4 +61,42 @@ fun Date.humanizeDiff(): String {
         msDiff <= 360 * DAY -> "${msDiff / DAY} дней назад"
         else -> "более года назад"
     }
+}
+
+enum class TimeUnits {
+    SECOND,
+    MINUTE,
+    HOUR,
+    DAY
+}
+
+fun TimeUnits.plural(value: Int): String {
+    var plural = "$value "
+    when (this) {
+        TimeUnits.SECOND -> plural += when {
+            value % 100 in 11..14 -> "секунд"
+            value % 10 in 2..4 -> "секунды"
+            value % 10 == 1 -> "секунду"
+            else -> "секунд"
+        }
+        TimeUnits.MINUTE -> plural += when {
+            value % 100 in 11..14 -> "минут"
+            value % 10 in 2..4 -> "минуты"
+            value % 10 == 1 -> "минуту"
+            else -> "минут"
+        }
+        TimeUnits.HOUR -> plural += when {
+            value % 100 in 11..14 -> "часов"
+            value % 10  == 1 -> "час"
+            value % 10 in 2..4 -> "часа"
+            else -> " часов"
+        }
+        TimeUnits.DAY -> plural += when {
+            value % 100 in 11..14 -> "дней"
+            value % 10 in 2..4 -> "дня"
+            value % 10 == 1 -> "день"
+            else -> "дней"
+        }
+    }
+    return plural
 }

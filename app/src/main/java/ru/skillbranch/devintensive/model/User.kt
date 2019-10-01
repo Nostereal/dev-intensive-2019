@@ -13,14 +13,15 @@ data class User(
     var isOnline: Boolean = false
 ) {
     companion object Factory {
-        private var nextId: Int = 0
+        private var prevId: Int = -1
 
         fun makeUser(fullname: String?): User {
+            prevId++
             val nameParts = fullname?.split(" ")
             val firstName: String? = nameParts?.get(0)
             val lastName: String? = nameParts?.get(1)
 
-            return User(id = "${nextId++}", firstName = firstName, lastName = lastName, avatar = null)
+            return User(id = "${prevId}", firstName = firstName, lastName = lastName, avatar = null)
         }
     }
 
