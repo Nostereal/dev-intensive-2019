@@ -1,17 +1,33 @@
 package ru.skillbranch.devintensive.extensions
 
+import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val SECONDS_IN_MINUTE = 60L
-private const val MINUTES_IN_HOUR = 60L
-private const val HOURS_IN_DAY = 24L
-private const val DAYS_IN_YEAR = 365L
+private const val SECOND = 1000L
+private const val MINUTE = 60 * SECOND
+private const val HOUR = 60 * MINUTE
+private const val DAY = 24 * HOUR
+private const val YEAR = 365 * DAY
 
 
 fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
     val dateFormatter = SimpleDateFormat(pattern, Locale("ru"))
     return dateFormatter.format(this)
+}
+
+fun Date.add(value: Int, units: String): Date {
+    var time = this.time
+    time += when (units) {
+        "second", "seconds" -> value * SECOND
+        "minute", "minutes" -> value * MINUTE
+        "hour", "hours" -> value * HOUR
+        "day", "days" -> value * DAY
+        else -> throw IllegalStateException("invalid units")
+    }
+
+    this.time += time
+    return this
 }
 
 fun Date.humanizeDiff(): String {
@@ -34,16 +50,16 @@ fun Date.humanizeDiff(): String {
 
 >360д "более года назад"
      */
-    val secondsDiff = (this.time - Date().time) / 1000L
+    val msDiff = (this.time - Date().time)
     return when {
-        secondsDiff <= 1 -> "только что"
-        secondsDiff <= 45 -> "несколько секунд назад"
-        secondsDiff <= 75 -> "минуту назад"
-        secondsDiff <= 45 * SECONDS_IN_MINUTE -> "${secondsDiff / SECONDS_IN_MINUTE} минут назад"
-        secondsDiff <= 75 * SECONDS_IN_MINUTE -> "час назад"
-        secondsDiff <= 22 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE -> "${secondsDiff / MINUTES_IN_HOUR / SECONDS_IN_MINUTE} часов назад"
-        secondsDiff <= 26 * MINUTES_IN_HOUR * SECONDS_IN_MINUTE -> "день назад"
-        secondsDiff <= 360 * DAYS_IN_YEAR * HOURS_IN_DAY * MINUTES_IN_HOUR * SECONDS_IN_MINUTE -> "${secondsDiff / (DAYS_IN_YEAR * HOURS_IN_DAY * MINUTES_IN_HOUR * SECONDS_IN_MINUTE)} дней назад"
+        msDiff <= 1 * SECOND -> "только что"
+        msDiff <= 45 * SECOND -> "несколько секунд назад"
+        msDiff <= 75 * SECOND -> "минуту назад"
+        msDiff <= 45 * MINUTE -> "${msDiff / MINUTE} минут назад"
+        msDiff <= 75 * MINUTE -> "час назад"
+        msDiff <= 22 * HOUR -> "${msDiff / HOUR} часов назад"
+        msDiff <= 26 * HOUR -> "день назад"
+        msDiff <= 360 * DAY -> "${msDiff / DAY} дней назад"
         else -> "более года назад"
     }
 }
