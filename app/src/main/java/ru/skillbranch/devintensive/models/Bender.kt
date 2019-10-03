@@ -34,10 +34,19 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
             }
         } else if (question.answers.contains(answer.toLowerCase())) {
             question = question.nextQuestion()
-            "Отлично - это правильный ответ!\n${question.question}" to status.color
+            if (question == Question.IDLE) {
+                "Отлично - ты справился\nНа этом все, вопросов больше нет" to status.color
+            } else {
+                "Отлично - ты справился\n${question.question}" to status.color
+            }
         } else {
+            val str: String = if (status == Status.CRITICAL) {
+                "Это неправильный ответ. Давай все по новой\n${question.question}"
+            } else {
+                "Это неправильный ответ\n${question.question}"
+            }
             status = status.nextStatus()
-            "Это неправильный ответ\n${question.question}" to status.color
+            str to status.color
         }
     }
 
