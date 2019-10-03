@@ -57,13 +57,13 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf("Бендер", "bender")) {
             override fun isAnswerValid(answer: String): Boolean =
-                answer[0] == answer[0].toUpperCase()
+                answer.isNotEmpty() && answer[0] == answer[0].toUpperCase()
 
             override fun nextQuestion(): Question = PROFESSION
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
             override fun isAnswerValid(answer: String): Boolean =
-                answer[0] == answer[0].toLowerCase()
+                answer.isNotEmpty() && answer[0] == answer[0].toLowerCase()
 
             override fun nextQuestion(): Question = MATERIAL
         },

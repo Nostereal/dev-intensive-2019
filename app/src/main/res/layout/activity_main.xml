@@ -44,7 +44,7 @@
             android:textColorHint="@color/color_gray_light" />
 
         <ImageView
-            android:id="@+id/iv_send_btn"
+            android:id="@+id/iv_send"
             android:layout_width="@dimen/send_btn_size"
             android:layout_height="@dimen/send_btn_size"
             android:layout_gravity="center"

@@ -4,10 +4,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.EventLog
 import android.util.Log
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
@@ -32,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         val (red, green, blue) = bender.status.color
         iv_bender.setColorFilter(Color.rgb(red, green, blue), PorterDuff.Mode.MULTIPLY)
 
-        iv_send_btn.setOnClickListener {
+
+        iv_send.setOnClickListener {
             onMessageSent()
         }
 
