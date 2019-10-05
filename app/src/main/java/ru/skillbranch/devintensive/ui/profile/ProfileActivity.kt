@@ -30,8 +30,8 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_constraint)
 
-        initViewModel()
         initViews(savedInstanceState)
+        initViewModel()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -72,7 +72,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun updateTheme(mode: Int) {
         Log.d("M_ProfileActivity", "Theme updated")
-        delegate.localNightMode = mode
+        delegate.setLocalNightMode(mode)
     }
 
     private fun updateUI(profile: Profile) {
