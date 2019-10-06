@@ -53,6 +53,8 @@ class ProfileActivity : AppCompatActivity() {
             "respect" to tv_respect
         )
 
+        showCurrentMode(isEditMode)
+
         btn_edit.setOnClickListener {
             if (isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
